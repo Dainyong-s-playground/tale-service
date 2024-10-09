@@ -2,7 +2,9 @@ package kkk.dainyong.tale.repository;
 
 import kkk.dainyong.tale.model.FairyTale;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -12,4 +14,9 @@ import java.util.List;
 @Mapper
 public interface FairyTaleRepository {
 	List<FairyTale> findTop5ByOrderByViewsDesc();
+	FairyTale findById(Long id);
+	int canIncrementViews(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress, @Param("viewDate") LocalDate viewDate);
+	void incrementViews(Long id);
+	void insertViewLog(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress, @Param("viewDate") LocalDate viewDate);
 }
+
