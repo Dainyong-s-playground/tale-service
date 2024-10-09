@@ -1,14 +1,16 @@
 package kkk.dainyong.tale.service;
 
-import kkk.dainyong.tale.model.dto.FairyTaleDTO;
-import kkk.dainyong.tale.repository.FairyTaleRepository;
-import kkk.dainyong.tale.model.FairyTale;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import kkk.dainyong.tale.model.FairyTale;
+import kkk.dainyong.tale.model.dto.FairyTaleDTO;
+import kkk.dainyong.tale.repository.FairyTaleRepository;
 
 @Service
 public class FairyTaleService {
@@ -39,5 +41,21 @@ public class FairyTaleService {
 			.description(fairyTale.getDescription())
 			.author(fairyTale.getAuthor())
 			.build();
+	}
+
+	@Transactional
+	public FairyTaleDTO incrementViews(Long fairyTaleId, String ipAddress) {
+		FairyTale fairyTale = fairyTaleRepository.findById(fairyTaleId);
+		if (fairyTale == null) {
+			throw new RuntimeException("동화를 찾을 수 없습니다.");
+		}
+
+		// 조회수를 항상 증가시킵니다.
+		fairyTaleRepository.incrementViews(fairyTaleId);
+
+		// 업데이트된 정보를 다시 가져옵니다.
+		fairyTale = fairyTaleRepository.findById(fairyTaleId);
+
+		return convertToDTO(fairyTale);
 	}
 }
