@@ -7,9 +7,16 @@
 
     <!-- 조회수 기준 상위 5개 동화를 조회 (대용) )-->
     <select id="findTop5ByOrderByViewsDesc" resultType="kkk.dainyong.tale.model.FairyTale">
-        SELECT id, title, image_url AS imageUrl, views, rental_price AS rentalPrice,
-               purchase_price AS purchasePrice, description, author
-        FROM FAIRYTALES
-        ORDER BY views DESC LIMIT 5
+        SELECT id,
+               title,
+               image AS imageUrl,
+               count AS views,
+               rental_price AS rentalPrice,
+               purchase_price AS purchasePrice,
+               summary AS description,
+               creator AS author
+        FROM KKK.FAIRYTALES
+        ORDER BY count DESC
+            FETCH FIRST 5 ROWS ONLY
     </select>
 </mapper>
