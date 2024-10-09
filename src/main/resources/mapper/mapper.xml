@@ -19,4 +19,36 @@
         ORDER BY count DESC
             FETCH FIRST 5 ROWS ONLY
     </select>
+
+    <select id="findById" resultType="kkk.dainyong.tale.model.FairyTale">
+        SELECT
+            ID as id,
+            TITLE as title,
+            IMAGE as imageUrl,
+            COUNT as views,
+            RENTAL_PRICE as rentalPrice,
+            PURCHASE_PRICE as purchasePrice,
+            SUMMARY as description,
+            CREATOR as author
+        FROM KKK.FAIRYTALES
+        WHERE ID = #{id}
+    </select>
+
+    <update id="incrementViews">
+        UPDATE KKK.FAIRYTALES
+        SET COUNT = COUNT + 1
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 조회수 증가 로직을 위한 임시 쿼리 -->
+    <select id="canIncrementViews" resultType="int">
+        SELECT 1 FROM DUAL
+    </select>
+
+    <!-- 조회 로그를 위한 임시 쿼리 (실제로는 아무 작업도 하지 않음) -->
+    <insert id="insertViewLog">
+        SELECT 1 FROM DUAL
+    </insert>
+
 </mapper>
+
