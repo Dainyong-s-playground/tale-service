@@ -1,8 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kkk.dainyong.tale.repository.IFairyTaleRepository">
+<mapper namespace="kkk.dainyong.tale.model.dao.FairyTaleDAO">
 
-
+    <!-- 조회수 기준 상위 5개 동화를 조회 (대용) )-->
+    <select id="findTop5ByOrderByViewsDesc" resultType="kkk.dainyong.tale.model.FairyTale">
+        SELECT id, title, image_url AS imageUrl, views, rental_price AS rentalPrice,
+               purchase_price AS purchasePrice, description, author
+        FROM FAIRYTALES
+        ORDER BY views DESC LIMIT 5
+    </select>
 </mapper>
