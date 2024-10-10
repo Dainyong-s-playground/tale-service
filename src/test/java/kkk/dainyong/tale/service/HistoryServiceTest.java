@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import kkk.dainyong.tale.repository.CommentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,12 +27,15 @@ class HistoryServiceTest {
 	@Mock
 	private FairyTaleRepository fairyTaleRepository;
 
+	@Mock
+	private CommentRepository commentRepository;
+
 	private HistoryService historyService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		historyService = new HistoryService(historyRepository, fairyTaleRepository);
+		historyService = new HistoryService(historyRepository, fairyTaleRepository,commentRepository);
 	}
 
 	/**

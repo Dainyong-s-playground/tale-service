@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.CommentRepository">
+    <select id="selectCommentsByProfileId" resultType="kkk.dainyong.tale.model.dto.CommentsDTO">
+        SELECT
+        id,
+        comments AS dailyComment,
+        badge AS useComplimentBadge,
+        profile_id AS profileId,
+        TO_CHAR(comment_date, 'YYYY-MM-DD') AS readsDay
+        FROM COMMENTS
+        WHERE profile_id = #{profileId}
+    </select>
+
+</mapper>
