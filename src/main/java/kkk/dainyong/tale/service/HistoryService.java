@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kkk.dainyong.tale.exception.FairyTaleNotFoundException;
 import kkk.dainyong.tale.model.FairyTale;
 import kkk.dainyong.tale.model.History;
 import kkk.dainyong.tale.model.dto.HistoryDTO;
 import kkk.dainyong.tale.repository.FairyTaleRepository;
 import kkk.dainyong.tale.repository.HistoryRepository;
-import kkk.dainyong.tale.exception.FairyTaleNotFoundException; // 이 줄을 추가해주세요
 
 @Service
 @Transactional

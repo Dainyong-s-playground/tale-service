@@ -13,17 +13,13 @@
     </resultMap>
 
     <select id="getRecentlyWatchedContent" resultMap="historyResultMap">
-        SELECT
-            profile_id,
-            fairytale_id,
-            read_date,
-            progress
-        FROM
-            KKK.HISTORIES
-        WHERE
-            profile_id = #{profileId}
-        ORDER BY
-            read_date DESC
+        SELECT profile_id,
+               fairytale_id,
+               read_date,
+               progress
+        FROM KKK.HISTORIES
+        WHERE profile_id = #{profileId}
+        ORDER BY read_date DESC
     </select>
 
     <insert id="insertHistory" parameterType="kkk.dainyong.tale.model.History">
@@ -46,4 +42,16 @@
           AND fairytale_id = #{fairyTaleId}
     </delete>
 
+    <select id="getLatestHistory" resultMap="historyResultMap">
+        SELECT *
+        FROM (SELECT profile_id,
+                     fairytale_id,
+                     read_date,
+                     progress
+              FROM KKK.HISTORIES
+              WHERE profile_id = #{profileId}
+                AND fairytale_id = #{fairyTaleId}
+              ORDER BY read_date DESC)
+        WHERE ROWNUM = 1
+    </select>
 </mapper>
