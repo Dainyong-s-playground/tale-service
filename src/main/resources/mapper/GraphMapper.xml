@@ -14,4 +14,15 @@
         FROM REPORTS
         WHERE profile_id = #{profileId}
     </select>
+
+    <select id="getPreferenceByProfileId" resultType="kkk.dainyong.tale.model.dto.PreferenceDTO">
+        SELECT t.content, count
+        FROM (SELECT *
+        FROM preferences p
+        WHERE p.profile_id = #{profileId}
+        ORDER BY count DESC
+        FETCH FIRST 7 ROWS ONLY)
+        JOIN TAGS t ON tag_id=t.id
+        ORDER BY TAG_ID ASC
+    </select>
 </mapper>
