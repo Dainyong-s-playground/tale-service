@@ -15,8 +15,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-
-
     @GetMapping("/{profileId}")
     public ResponseEntity<List<CommentsDTO>> getCommentsData(@PathVariable Long profileId) {
         // 서비스 계층에서 병합된 데이터를 가져옴
