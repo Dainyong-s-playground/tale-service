@@ -25,13 +25,13 @@ import kkk.dainyong.tale.exception.FairyTaleNotFoundException; // 이 줄을 추
 public class HistoryService {
 	private final HistoryRepository historyRepository;
 	private final FairyTaleRepository fairyTaleRepository;
-	private final CommentRepository	commentRepository;
+
 
 	@Autowired
-	public HistoryService(HistoryRepository historyRepository, FairyTaleRepository fairyTaleRepository, CommentRepository commentRepository) {
+	public HistoryService(HistoryRepository historyRepository, FairyTaleRepository fairyTaleRepository) {
 		this.historyRepository = historyRepository;
 		this.fairyTaleRepository = fairyTaleRepository;
-		this.commentRepository= commentRepository;
+
 	}
 
 	@Transactional(readOnly = true)
@@ -53,10 +53,6 @@ public class HistoryService {
 
 		return pastDataDTOList;
 	}
-	public List<CommentsDTO> getComments(Long profileId) {
-		List<CommentsDTO> commentsList = commentRepository.selectCommentsByProfileId(profileId);
 
-		return commentsList;
-	}
 	// 필요한 경우 다른 메서드 추가
 }

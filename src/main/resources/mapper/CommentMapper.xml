@@ -15,4 +15,9 @@
         WHERE profile_id = #{profileId}
     </select>
 
+    <!-- 댓글 삽입 쿼리 -->
+    <insert id="insertComment" parameterType="kkk.dainyong.tale.model.dto.CommentsDTO">
+        INSERT INTO COMMENTS (ID, COMMENT_DATE, COMMENTS, BADGE, PROFILE_ID)
+        VALUES (comments_seq.NEXTVAL,#{readsDay}, #{dailyComment}, #{useComplimentBadge}, #{profileId})
+    </insert>
 </mapper>

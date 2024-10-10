@@ -27,15 +27,12 @@ class HistoryServiceTest {
 	@Mock
 	private FairyTaleRepository fairyTaleRepository;
 
-	@Mock
-	private CommentRepository commentRepository;
-
 	private HistoryService historyService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		historyService = new HistoryService(historyRepository, fairyTaleRepository,commentRepository);
+		historyService = new HistoryService(historyRepository, fairyTaleRepository);
 	}
 
 	/**
