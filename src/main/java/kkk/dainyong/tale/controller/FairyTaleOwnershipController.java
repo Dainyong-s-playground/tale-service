@@ -2,14 +2,17 @@ package kkk.dainyong.tale.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import kkk.dainyong.tale.model.dto.FairyTaleOwnershipDTO;
 import kkk.dainyong.tale.service.FairyTaleOwnershipService;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/fairy-tale-ownership")
@@ -32,26 +35,22 @@ public class FairyTaleOwnershipController {
 
 	@PostMapping("/rent")
 	public ResponseEntity<FairyTaleOwnershipDTO> rentFairyTale(@RequestBody OwnershipRequest request) {
-		System.out.println("Received request to rent fairyTale: " + request.getFairyTaleId() + " for profileId: " + request.getProfileId());
-		FairyTaleOwnershipDTO result = fairyTaleOwnershipService.rentFairyTale(request.getProfileId(), request.getFairyTaleId());
+		FairyTaleOwnershipDTO result = fairyTaleOwnershipService.rentFairyTale(request.getProfileId(),
+			request.getFairyTaleId());
 		return ResponseEntity.ok(result);
 	}
 
 	@PostMapping("/purchase")
 	public ResponseEntity<FairyTaleOwnershipDTO> purchaseFairyTale(@RequestBody OwnershipRequest request) {
-		System.out.println("Received request to purchase fairyTale: " + request.getFairyTaleId() + " for profileId: " + request.getProfileId());
-		FairyTaleOwnershipDTO result = fairyTaleOwnershipService.buyFairyTale(request.getProfileId(), request.getFairyTaleId());
+		FairyTaleOwnershipDTO result = fairyTaleOwnershipService.buyFairyTale(request.getProfileId(),
+			request.getFairyTaleId());
 		return ResponseEntity.ok(result);
 	}
 }
 
-@Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 class OwnershipRequest {
-	// getters and setters
-	private Long profileId;
-	private Long fairyTaleId;
-
+	private final Long profileId;
+	private final Long fairyTaleId;
 }
