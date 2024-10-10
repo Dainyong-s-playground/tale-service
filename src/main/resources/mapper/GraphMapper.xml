@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.GraphRepository">
+    <select id="getReports" resultType="kkk.dainyong.tale.model.Reports">
+        SELECT
+        id,
+        count,
+        record_count AS recordCount,
+        motion_count AS motionCount,
+        game_count AS gameCount
+        FROM REPORTS
+        WHERE profile_id = #{profileId}
+    </select>
+</mapper>
