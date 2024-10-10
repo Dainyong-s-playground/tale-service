@@ -48,6 +48,7 @@ public class HistoryService {
 			.collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
 	public List<PastDataDTO> getPastData(Long profileId) {
 		List<PastDataDTO> pastDataDTOList = historyRepository.selectHistoriesByProfileId(profileId);
 

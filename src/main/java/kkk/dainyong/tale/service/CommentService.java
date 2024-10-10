@@ -25,6 +25,7 @@ public class CommentService {
         commentRepository.insertComment(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<CommentsDTO> getComments(Long profileId) {
         List<CommentsDTO> commentsList = commentRepository.selectCommentsByProfileId(profileId);
 
