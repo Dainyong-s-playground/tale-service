@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.HistoryRepository">
+
+    <resultMap id="historyResultMap" type="kkk.dainyong.tale.model.History">
+        <result property="profileId" column="profile_id"/>
+        <result property="fairyTaleId" column="fairytale_id"/>
+        <result property="readDate" column="read_date"/>
+        <result property="progress" column="progress"/>
+    </resultMap>
+
+    <select id="getRecentlyWatchedContent" resultMap="historyResultMap">
+        SELECT profile_id,
+               fairytale_id,
+               read_date,
+               progress
+        FROM KKK.HISTORIES
+        WHERE profile_id = #{profileId}
+        ORDER BY read_date DESC
+    </select>
+
+    <insert id="insertHistory" parameterType="kkk.dainyong.tale.model.History">
+        INSERT INTO KKK.HISTORIES (profile_id, fairytale_id, read_date, progress)
+        VALUES (#{profileId}, #{fairyTaleId}, #{readDate}, #{progress})
+    </insert>
+
+    <update id="updateHistory" parameterType="kkk.dainyong.tale.model.History">
+        UPDATE KKK.HISTORIES
+        SET progress  = #{progress},
+            read_date = #{readDate}
+        WHERE profile_id = #{profileId}
+          AND fairytale_id = #{fairyTaleId}
+    </update>
+
+    <delete id="deleteHistory">
+        DELETE
+        FROM KKK.HISTORIES
+        WHERE profile_id = #{profileId}
+          AND fairytale_id = #{fairyTaleId}
+    </delete>
+
+    <select id="getLatestHistory" resultMap="historyResultMap">
+        SELECT *
+        FROM (SELECT profile_id,
+                     fairytale_id,
+                     read_date,
+                     progress
+              FROM KKK.HISTORIES
+              WHERE profile_id = #{profileId}
+                AND fairytale_id = #{fairyTaleId}
+              ORDER BY read_date DESC)
+        WHERE ROWNUM = 1
+    </select>
+</mapper>
