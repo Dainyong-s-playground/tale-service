@@ -25,10 +25,6 @@ public interface FairyTaleOwnershipRepository {
 
 	void savePurchase(PurchaseList purchase);
 
-	List<RentalList> findRentalListByUserId(String userId);
-
-	List<PurchaseList> findPurchaseListByUserId(String userId);
-
 	List<PurchaseList> findPurchaseListByProfileId(@Param("profileId") Long profileId);
 
 	List<RentalList> findRentalListByProfileId(@Param("profileId") Long profileId);
