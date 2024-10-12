@@ -1,8 +1,7 @@
 package kkk.dainyong.tale.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+
 
 @Getter
 @ToString

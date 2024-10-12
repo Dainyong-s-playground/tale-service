@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kkk.dainyong.tale.repository.FairyTaleOwnershipRepository">
+    <select id="findUserIdByProfileId" resultType="String">
+        SELECT k.ID
+        FROM KUSERS k
+                 JOIN PROFILES p ON k.ID = p.USER_ID
+        WHERE p.ID = #{profileId}
+    </select>
+
+    <select id="findPurchaseByUserIdAndFairyTaleId" resultType="kkk.dainyong.tale.model.PurchaseList">
+        SELECT *
+        FROM PURCHASE_LIST
+        WHERE USER_ID = #{userId}
+          AND FAIRYTALE_ID = #{fairyTaleId}
+    </select>
+
+    <select id="findActiveRentalByUserIdAndFairyTaleId" resultType="kkk.dainyong.tale.model.RentalList">
+        SELECT *
+        FROM RENTAL_LIST
+        WHERE USER_ID = #{userId}
+          AND FAIRYTALE_ID = #{fairyTaleId}
+          AND END_DATE > SYSDATE
+    </select>
+
+    <select id="findFairyTaleById" resultType="kkk.dainyong.tale.model.FairyTale">
+        SELECT *
+        FROM FAIRYTALES
+        WHERE id = #{fairyTaleId}
+    </select>
+
+    <insert id="saveRental" parameterType="kkk.dainyong.tale.model.RentalList">
+        INSERT INTO RENTAL_LIST (USER_ID, FAIRYTALE_ID, START_DATE, END_DATE)
+        VALUES (#{userId}, #{fairyTaleId}, #{startDate}, #{endDate})
+    </insert>
+
+    <insert id="savePurchase" parameterType="kkk.dainyong.tale.model.PurchaseList">
+        INSERT INTO PURCHASE_LIST (USER_ID, FAIRYTALE_ID, PURCHASE_DATE)
+        VALUES (#{userId}, #{fairyTaleId}, #{purchaseDate})
+    </insert>
+</mapper>
