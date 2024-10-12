@@ -17,8 +17,8 @@
     </select>
 
     <insert id="insertReservation" parameterType="kkk.dainyong.tale.model.Reservation">
-        INSERT INTO RESERVATIONS (PROFILE_ID, FAIRYTALE_ID, RESERVATION_DATE)
-        VALUES (#{profileId}, #{fairytaleId}, #{selectedDate})
+        INSERT INTO RESERVATIONS (ID, PROFILE_ID, FAIRYTALE_ID, RESERVATION_DATE)
+        VALUES (reservation_seq.NEXTVAL ,#{profileId}, #{fairyTaleId}, TO_DATE(#{reservationDate}, 'YYYY-MM-DD'))
     </insert>
 
     <!-- 예약 삭제 쿼리 -->
