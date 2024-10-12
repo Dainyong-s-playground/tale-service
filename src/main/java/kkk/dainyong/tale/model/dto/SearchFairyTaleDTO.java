@@ -15,5 +15,10 @@ public class SearchFairyTaleDTO {
     private Long id;
     private String fairyTaleTitle;
     private String fairyTaleImage;
+    private int views;
+    private int rentalPrice;
+    private int purchasePrice;
+    private String description;
+    private String author;
     private List<String> tag;
 }

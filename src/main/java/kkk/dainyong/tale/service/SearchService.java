@@ -46,6 +46,11 @@ public class SearchService {
                         .id(fairyTale.getId())
                         .fairyTaleTitle(fairyTale.getFairyTaleTitle())
                         .fairyTaleImage(fairyTale.getFairyTaleImage())
+                        .views(fairyTale.getViews())
+                        .rentalPrice(fairyTale.getRentalPrice())
+                        .purchasePrice(fairyTale.getPurchasePrice())
+                        .description(fairyTale.getDescription())
+                        .author(fairyTale.getAuthor())
                         .tag(tagMap.getOrDefault(fairyTale.getId(), new ArrayList<>()))
                         .build())
                 .collect(Collectors.toList());

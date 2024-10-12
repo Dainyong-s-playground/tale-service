@@ -12,7 +12,12 @@
     <select id="getFairyTale" resultType="kkk.dainyong.tale.model.dto.SearchFairyTaleDTO">
         SELECT ID,
         TITLE as fairyTaleTitle,
-        IMAGE as fairyTaleImage
+        IMAGE as fairyTaleImage,
+        COUNT as views,
+        RENTAL_PRICE as rentalPrice,
+        PURCHASE_PRICE as purchasePrice,
+        SUMMARY as description,
+        CREATOR as author
         FROM FAIRYTALES
     </select>
 
