@@ -27,6 +27,7 @@ public class ReservationService {
     }
 
     // 특정 프로필의 예약 목록 조회
+    @Transactional(readOnly = true)
     public List<ReservationDTO> getReservationsByProfile(Long profileId) {
         return reservationRepository.getReservationsByProfileId(profileId);
     }
