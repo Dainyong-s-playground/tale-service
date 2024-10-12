@@ -1,8 +1,14 @@
 package kkk.dainyong.tale.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import kkk.dainyong.tale.model.dto.CommentsDTO;
+import kkk.dainyong.tale.model.dto.PastDataDTO;
+import kkk.dainyong.tale.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +26,12 @@ public class HistoryService {
 	private final HistoryRepository historyRepository;
 	private final FairyTaleRepository fairyTaleRepository;
 
+
 	@Autowired
 	public HistoryService(HistoryRepository historyRepository, FairyTaleRepository fairyTaleRepository) {
 		this.historyRepository = historyRepository;
 		this.fairyTaleRepository = fairyTaleRepository;
+
 	}
 
 	@Transactional(readOnly = true)
@@ -38,6 +46,13 @@ public class HistoryService {
 				return HistoryDTO.from(history, fairyTale);
 			})
 			.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public List<PastDataDTO> getPastData(Long profileId) {
+		List<PastDataDTO> pastDataDTOList = historyRepository.selectHistoriesByProfileId(profileId);
+
+		return pastDataDTOList;
 	}
 
 	// 필요한 경우 다른 메서드 추가
