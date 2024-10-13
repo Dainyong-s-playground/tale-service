@@ -28,4 +28,7 @@ public interface FairyTaleOwnershipRepository {
 	List<PurchaseList> findPurchaseListByProfileId(@Param("profileId") Long profileId);
 
 	List<RentalList> findRentalListByProfileId(@Param("profileId") Long profileId);
+
+	List<RentalList> findRentalListByUserId(@Param("userId") String userId);
+	List<PurchaseList> findPurchaseListByUserId(@Param("userId") String userId);
 }
