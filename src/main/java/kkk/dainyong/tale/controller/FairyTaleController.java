@@ -41,13 +41,10 @@ public class FairyTaleController {
 		return ResponseEntity.ok(top5FairyTales);
 	}
 
-	// 이 메서드는 제거하거나 주석 처리합니다.
-    /*
-    @PostMapping("/{id}/incrementViews")
-    public ResponseEntity<FairyTaleDTO> incrementViews(@PathVariable Long id, HttpServletRequest request) {
-        String ipAddress = request.getRemoteAddr();
-        FairyTaleDTO fairyTaleDTO = fairyTaleService.incrementViews(id, ipAddress);
-        return ResponseEntity.ok(fairyTaleDTO);
-    }
-    */
+	@GetMapping("/{id}/recommendations")
+	public ResponseEntity<List<FairyTaleDTO>> getRecommendations(@PathVariable Long id) {
+		List<FairyTaleDTO> recommendations = fairyTaleService.getRandomThreeRecommendations(id);
+		return ResponseEntity.ok(recommendations);
+	}
+
 }

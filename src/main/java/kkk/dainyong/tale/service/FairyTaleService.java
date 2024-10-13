@@ -46,6 +46,14 @@ public class FairyTaleService {
 			.collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
+	public List<FairyTaleDTO> getRandomThreeRecommendations(Long excludeId) {
+		List<FairyTale> recommendations = fairyTaleRepository.findRandomThreeFromTopTenExcludingId(excludeId);
+		return recommendations.stream()
+			.map(this::convertToDTO)
+			.collect(Collectors.toList());
+	}
+
 	private FairyTaleDTO convertToDTO(FairyTale fairyTale) {
 		return FairyTaleDTO.builder()
 			.id(fairyTale.getId())

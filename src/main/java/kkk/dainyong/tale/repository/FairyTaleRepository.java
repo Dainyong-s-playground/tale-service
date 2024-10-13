@@ -25,5 +25,6 @@ public interface FairyTaleRepository {
 
 	void insertViewLog(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress,
 		@Param("viewDate") LocalDate viewDate);
-}
 
+	List<FairyTale> findRandomThreeFromTopTenExcludingId(@Param("excludeId") Long excludeId);
+}
