@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.FairyTaleDataRepository">
+
+    <resultMap id="fairytaleResultMap" type="kkk.dainyong.tale.model.dto.FairyTaleDataDTO">
+        <id property="id" column="ID" />
+        <result property="title" column="TITLE" />
+        <result property="image" column="IMAGE" />
+        <result property="speaker" column="SPEAKER" />
+        <result property="script" column="SCRIPT" />
+        <result property="sceneNumber" column="SCENE_NUMBER" />
+        <collection property="url" ofType="string">
+            <result column="URL"/>
+        </collection>
+    </resultMap>
+
+    <select id="getFairyTaleData" resultMap="fairytaleResultMap">
+        SELECT f.ID, f.TITLE, f.IMAGE, d.SPEAKER, d.SCRIPT, i.URL, d.SCENE_NUMBER
+        FROM FAIRYTALES f
+                 LEFT JOIN DATA_FAIRYTALES d ON f.ID = d.FAIRYTALE_ID
+                 LEFT JOIN IMAGE_FAIRYTALES i ON f.ID = i.FAIRYTALE_ID
+        WHERE f.ID = #{fairytaleId}
+    </select>
+</mapper>
