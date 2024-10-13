@@ -1,5 +1,7 @@
 package kkk.dainyong.tale.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kkk.dainyong.tale.model.PurchaseList;
+import kkk.dainyong.tale.model.RentalList;
 import kkk.dainyong.tale.model.dto.FairyTaleOwnershipDTO;
 import kkk.dainyong.tale.service.FairyTaleOwnershipService;
 import lombok.Getter;
@@ -45,6 +49,18 @@ public class FairyTaleOwnershipController {
 		FairyTaleOwnershipDTO result = fairyTaleOwnershipService.buyFairyTale(request.getProfileId(),
 			request.getFairyTaleId());
 		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/rental-list/{profileId}")
+	public ResponseEntity<List<RentalList>> getRentalList(@PathVariable Long profileId) {
+		List<RentalList> rentalList = fairyTaleOwnershipService.getRentalListByProfileId(profileId);
+		return ResponseEntity.ok(rentalList);
+	}
+
+	@GetMapping("/purchase-list/{profileId}")
+	public ResponseEntity<List<PurchaseList>> getPurchaseList(@PathVariable Long profileId) {
+		List<PurchaseList> purchaseList = fairyTaleOwnershipService.getPurchaseListByProfileId(profileId);
+		return ResponseEntity.ok(purchaseList);
 	}
 }
 

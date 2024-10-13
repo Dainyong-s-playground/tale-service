@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.SearchRepository">
+    <select id="getTags" resultType="kkk.dainyong.tale.model.Tags">
+        SELECT id,content
+        FROM TAGS
+    </select>
+
+    <select id="getFairyTale" resultType="kkk.dainyong.tale.model.dto.SearchFairyTaleDTO">
+        SELECT ID,
+        TITLE as fairyTaleTitle,
+        IMAGE as fairyTaleImage,
+        COUNT as views,
+        RENTAL_PRICE as rentalPrice,
+        PURCHASE_PRICE as purchasePrice,
+        SUMMARY as description,
+        CREATOR as author
+        FROM FAIRYTALES
+    </select>
+
+
+    <select id="getFairyTaleTags" resultType="kkk.dainyong.tale.model.dto.TagDTO">
+        SELECT ft.fairytale_id as fairyTaleId,
+        t.content as tags
+        FROM FAIRYTALE_TAGS ft
+        JOIN TAGS t ON ft.tag_id = t.id
+    </select>
+</mapper>

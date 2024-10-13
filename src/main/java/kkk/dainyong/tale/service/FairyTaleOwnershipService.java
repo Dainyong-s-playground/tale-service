@@ -2,6 +2,7 @@ package kkk.dainyong.tale.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,20 @@ public class FairyTaleOwnershipService {
 		return createFairyTaleOwnershipDTO(fairyTale, purchase, null, history);
 	}
 
+	@Transactional(readOnly = true)
+	public List<RentalList> getRentalListByProfileId(Long profileId) {
+		logger.info("Getting rental list for profileId: {}", profileId);
+		return fairyTaleOwnershipRepository.findRentalListByProfileId(profileId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<PurchaseList> getPurchaseListByProfileId(Long profileId) {
+		logger.info("Getting purchase list for profileId: {}", profileId);
+		List<PurchaseList> purchaseList = fairyTaleOwnershipRepository.findPurchaseListByProfileId(profileId);
+		logger.info("Retrieved purchase list: {}", purchaseList);
+		return purchaseList;
+	}
+
 	private String getUserIdFromProfile(Long profileId) {
 		String userId = fairyTaleOwnershipRepository.findUserIdByProfileId(profileId);
 		logger.debug("Found userId: {} for profileId: {}", userId, profileId);
@@ -144,8 +159,8 @@ public class FairyTaleOwnershipService {
 			.imageUrl(fairyTale.getImageUrl())
 			.isPurchased(purchase != null)
 			.isRented(rental != null)
-			.acquisitionDate(purchase != null ? purchase.getPurchaseDate() :
-				(rental != null ? rental.getStartDate() : null))
+			.acquisitionDate(
+				purchase != null ? purchase.getPurchaseDate() : (rental != null ? rental.getStartDate() : null))
 			.expirationDate(rental != null ? rental.getEndDate() : null)
 			.rentalPrice(fairyTale.getRentalPrice())
 			.purchasePrice(fairyTale.getPurchasePrice())

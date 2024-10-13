@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.ReservationRepository">
+    <select id="getReservationsByProfileId" resultType="kkk.dainyong.tale.model.dto.ReservationDTO">
+        SELECT
+        r.id AS reservationId,
+        r.fairytale_id AS fairyTaleId,
+        f.title AS fairyTaleTitle,
+        TO_CHAR(r.reservation_date, 'YYYY-MM-DD') AS reservationDate,
+        f.image AS fairyTaleImage
+        FROM RESERVATIONS r
+        JOIN FAIRYTALES f ON r.fairytale_id = f.id
+        WHERE profile_id = #{profileId}
+    </select>
+
+    <insert id="insertReservation" parameterType="kkk.dainyong.tale.model.Reservation">
+        INSERT INTO RESERVATIONS (ID, PROFILE_ID, FAIRYTALE_ID, RESERVATION_DATE)
+        VALUES (reservation_seq.NEXTVAL ,#{profileId}, #{fairyTaleId}, TO_DATE(#{reservationDate}, 'YYYY-MM-DD'))
+    </insert>
+
+    <!-- 예약 삭제 쿼리 -->
+    <delete id="deleteReservation">
+        DELETE FROM RESERVATIONS WHERE ID = #{reservationId}
+    </delete>
+
+
+</mapper>

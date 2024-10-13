@@ -1,5 +1,7 @@
 package kkk.dainyong.tale.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +24,11 @@ public interface FairyTaleOwnershipRepository {
 	void saveRental(RentalList rental);
 
 	void savePurchase(PurchaseList purchase);
+
+	List<PurchaseList> findPurchaseListByProfileId(@Param("profileId") Long profileId);
+
+	List<RentalList> findRentalListByProfileId(@Param("profileId") Long profileId);
+
+	List<RentalList> findRentalListByUserId(@Param("userId") String userId);
+	List<PurchaseList> findPurchaseListByUserId(@Param("userId") String userId);
 }

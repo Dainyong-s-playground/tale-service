@@ -3,6 +3,7 @@ package kkk.dainyong.tale.controller;
 
 import java.util.List;
 
+import kkk.dainyong.tale.model.dto.PastDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,5 +30,11 @@ public class HistoryController {
 		return ResponseEntity.ok(recentlyWatched);
 	}
 
+	@GetMapping("/pastData/{profileId}")
+	public ResponseEntity<List<PastDataDTO>> getPastDataList(@PathVariable Long profileId) {
+		// 서비스 계층에서 병합된 데이터를 가져옴
+		List<PastDataDTO> result = historyService.getPastData(profileId);
+		return ResponseEntity.ok(result);
+	}
 	// 필요한 경우 다른 엔드포인트 추가
 }
