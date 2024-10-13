@@ -1,5 +1,6 @@
 package kkk.dainyong.tale.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,22 @@ public class FairyTaleService {
 	@Autowired
 	public FairyTaleService(FairyTaleRepository fairyTaleRepository) {
 		this.fairyTaleRepository = fairyTaleRepository;
+	}
+
+	@Transactional
+	public FairyTaleDTO getFairyTaleByIdAndIncrementViews(Long id, String ipAddress) {
+		FairyTale fairyTale = fairyTaleRepository.findById(id);
+		if (fairyTale == null) {
+			return null;
+		}
+
+		// 조회수 증가 로직을 여기서만 실행
+		incrementViewsIfAllowed(id, ipAddress);
+
+		// 업데이트된 정보를 다시 가져옵니다.
+		fairyTale = fairyTaleRepository.findById(id);
+
+		return convertToDTO(fairyTale);
 	}
 
 	@Transactional(readOnly = true)
@@ -49,12 +66,19 @@ public class FairyTaleService {
 			throw new RuntimeException("동화를 찾을 수 없습니다.");
 		}
 
-		// 조회수를 항상 증가시킵니다.
-		fairyTaleRepository.incrementViews(fairyTaleId);
+		incrementViewsIfAllowed(fairyTaleId, ipAddress);
 
 		// 업데이트된 정보를 다시 가져옵니다.
 		fairyTale = fairyTaleRepository.findById(fairyTaleId);
 
 		return convertToDTO(fairyTale);
+	}
+
+	private void incrementViewsIfAllowed(Long fairyTaleId, String ipAddress) {
+		LocalDate viewDate = LocalDate.now();
+		if (fairyTaleRepository.canIncrementViews(fairyTaleId, ipAddress, viewDate) > 0) {
+			fairyTaleRepository.incrementViews(fairyTaleId);
+			fairyTaleRepository.insertViewLog(fairyTaleId, ipAddress, viewDate);
+		}
 	}
 }

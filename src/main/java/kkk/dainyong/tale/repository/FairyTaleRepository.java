@@ -15,9 +15,15 @@ import kkk.dainyong.tale.model.FairyTale;
 @Mapper
 public interface FairyTaleRepository {
 	List<FairyTale> findTop5ByOrderByViewsDesc();
+
 	FairyTale findById(@Param("id") Long id);
-	int canIncrementViews(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress, @Param("viewDate") LocalDate viewDate);
+
+	int canIncrementViews(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress,
+		@Param("viewDate") LocalDate viewDate);
+
 	void incrementViews(Long id);
-	void insertViewLog(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress, @Param("viewDate") LocalDate viewDate);
+
+	void insertViewLog(@Param("fairyTaleId") Long fairyTaleId, @Param("ipAddress") String ipAddress,
+		@Param("viewDate") LocalDate viewDate);
 }
 
