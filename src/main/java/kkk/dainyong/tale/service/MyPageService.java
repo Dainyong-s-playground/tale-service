@@ -26,12 +26,13 @@ public class MyPageService {
         return fairyTale;
     }
 
+    @Transactional(readOnly = true)
     public List<RentalList> getRentalListByUserId(String userId){
         List<RentalList> rentalLists = fairyTaleOwnershipRepository.findRentalListByUserId(userId);
-
         return rentalLists;
     }
 
+    @Transactional(readOnly = true)
     public List<PurchaseList> getPurchaseListByUserId(String userId) {
         List<PurchaseList> purchaseLists = fairyTaleOwnershipRepository.findPurchaseListByUserId(userId);
         return purchaseLists;
