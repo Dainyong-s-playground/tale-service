@@ -8,6 +8,5 @@ public class FairyTaleTtsDTO {
 
     @NotNull
     private String sentence;
-    private String speaker;
     private String language;
 }

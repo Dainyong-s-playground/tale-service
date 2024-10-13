@@ -42,7 +42,6 @@ public class FairyTalePlayerService {
         // body
         Map<String, String> body = new HashMap<>();
         body.put("sentence", fairyTaleTtsDTO.getSentence());
-        body.put("speaker", fairyTaleTtsDTO.getSpeaker());
         body.put("language", fairyTaleTtsDTO.getLanguage());
 
         // message
