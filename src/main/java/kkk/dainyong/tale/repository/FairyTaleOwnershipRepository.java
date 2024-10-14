@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import kkk.dainyong.tale.model.FairyTale;
 import kkk.dainyong.tale.model.PurchaseList;
@@ -15,10 +14,10 @@ public interface FairyTaleOwnershipRepository {
 	String findUserIdByProfileId(@Param("profileId") Long profileId);
 
 	PurchaseList findPurchaseByUserIdAndFairyTaleId(@Param("userId") String userId,
-			@Param("fairyTaleId") Long fairyTaleId);
+		@Param("fairyTaleId") Long fairyTaleId);
 
 	RentalList findActiveRentalByUserIdAndFairyTaleId(@Param("userId") String userId,
-			@Param("fairyTaleId") Long fairyTaleId);
+		@Param("fairyTaleId") Long fairyTaleId);
 
 	FairyTale findFairyTaleById(@Param("fairyTaleId") Long fairyTaleId);
 
