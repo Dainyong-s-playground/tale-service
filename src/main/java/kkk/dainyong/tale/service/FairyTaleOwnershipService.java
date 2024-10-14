@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kkk.dainyong.tale.exception.InsufficientCreditException;
 import kkk.dainyong.tale.model.FairyTale;
 import kkk.dainyong.tale.model.History;
 import kkk.dainyong.tale.model.PurchaseList;
@@ -17,6 +18,7 @@ import kkk.dainyong.tale.model.RentalList;
 import kkk.dainyong.tale.model.dto.FairyTaleOwnershipDTO;
 import kkk.dainyong.tale.repository.FairyTaleOwnershipRepository;
 import kkk.dainyong.tale.repository.HistoryRepository;
+import kkk.dainyong.tale.repository.UserRepository;
 
 @Service
 public class FairyTaleOwnershipService {
@@ -24,12 +26,14 @@ public class FairyTaleOwnershipService {
 	private static final Logger logger = LoggerFactory.getLogger(FairyTaleOwnershipService.class);
 	private final FairyTaleOwnershipRepository fairyTaleOwnershipRepository;
 	private final HistoryRepository historyRepository;
+	private final UserRepository userRepository;
 
 	@Autowired
 	public FairyTaleOwnershipService(FairyTaleOwnershipRepository fairyTaleOwnershipRepository,
-		HistoryRepository historyRepository) {
+		HistoryRepository historyRepository, UserRepository userRepository) {
 		this.fairyTaleOwnershipRepository = fairyTaleOwnershipRepository;
 		this.historyRepository = historyRepository;
+		this.userRepository = userRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -47,41 +51,57 @@ public class FairyTaleOwnershipService {
 
 	@Transactional
 	public FairyTaleOwnershipDTO rentFairyTale(Long profileId, Long fairyTaleId) {
-		logger.info("Renting fairy tale for profileId: {} and fairyTaleId: {}", profileId, fairyTaleId);
-		String userId = getUserIdFromProfile(profileId);
-		FairyTale fairyTale = getFairyTaleById(fairyTaleId);
+		try {
+			logger.info("Renting fairy tale for profileId: {} and fairyTaleId: {}", profileId, fairyTaleId);
+			String userId = getUserIdFromProfile(profileId);
+			FairyTale fairyTale = getFairyTaleById(fairyTaleId);
 
-		// 이미 구매한 경우 체크
-		PurchaseList existingPurchase = fairyTaleOwnershipRepository.findPurchaseByUserIdAndFairyTaleId(userId,
-			fairyTaleId);
-		if (existingPurchase != null) {
-			logger.warn("User {} already purchased fairy tale {}", userId, fairyTaleId);
-			throw new IllegalStateException("이미 소장 중인 동화입니다.");
+			// 이미 구매한 경우 체크
+			PurchaseList existingPurchase = fairyTaleOwnershipRepository.findPurchaseByUserIdAndFairyTaleId(userId,
+				fairyTaleId);
+			if (existingPurchase != null) {
+				logger.warn("User {} already purchased fairy tale {}", userId, fairyTaleId);
+				throw new IllegalStateException("이미 소장 중인 동화입니다.");
+			}
+
+			// 이미 대여 중인 경우 체크
+			RentalList existingRental = fairyTaleOwnershipRepository.findActiveRentalByUserIdAndFairyTaleId(userId,
+				fairyTaleId);
+			if (existingRental != null) {
+				logger.warn("User {} already rented fairy tale {}", userId, fairyTaleId);
+				throw new IllegalStateException("이미 대여 중인 동화입니다. 대여 만료일: " + existingRental.getEndDate());
+			}
+
+			// 크레딧 확인 및 차감
+			int userCredit = userRepository.getUserCredit(userId);
+			if (userCredit < fairyTale.getRentalPrice()) {
+				throw new InsufficientCreditException("크레딧이 부족합니다.");
+			}
+
+			userRepository.updateUserCredit(userId, userCredit - fairyTale.getRentalPrice());
+
+			Date startDate = new Date();
+			Date endDate = calculateEndDate(startDate, 7); // 7일
+
+			RentalList rental = RentalList.builder()
+				.userId(userId)
+				.fairyTaleId(fairyTaleId)
+				.startDate(startDate)
+				.endDate(endDate)
+				.build();
+
+			fairyTaleOwnershipRepository.saveRental(rental);
+			logger.info("Fairy tale rented successfully");
+
+			History history = historyRepository.getLatestHistory(profileId, fairyTaleId);
+			return createFairyTaleOwnershipDTO(fairyTale, null, rental, history);
+		} catch (InsufficientCreditException e) {
+			logger.warn("Insufficient credit to rent fairy tale: {}", e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			logger.error("Error occurred while renting fairy tale", e);
+			throw new RuntimeException("동화 대여 중 오류가 발생했습니다: " + e.getMessage(), e);
 		}
-
-		// 이미 대여 중인 경우 체크
-		RentalList existingRental = fairyTaleOwnershipRepository.findActiveRentalByUserIdAndFairyTaleId(userId,
-			fairyTaleId);
-		if (existingRental != null) {
-			logger.warn("User {} already rented fairy tale {}", userId, fairyTaleId);
-			throw new IllegalStateException("이미 대여 중인 동화입니다. 대여 만료일: " + existingRental.getEndDate());
-		}
-
-		Date startDate = new Date();
-		Date endDate = calculateEndDate(startDate, 7); // 7일 대여 기간
-
-		RentalList rental = RentalList.builder()
-			.userId(userId)
-			.fairyTaleId(fairyTaleId)
-			.startDate(startDate)
-			.endDate(endDate)
-			.build();
-
-		fairyTaleOwnershipRepository.saveRental(rental);
-		logger.info("Fairy tale rented successfully");
-
-		History history = historyRepository.getLatestHistory(profileId, fairyTaleId);
-		return createFairyTaleOwnershipDTO(fairyTale, null, rental, history);
 	}
 
 	@Transactional
@@ -97,6 +117,15 @@ public class FairyTaleOwnershipService {
 			logger.warn("User {} already purchased fairy tale {}", userId, fairyTaleId);
 			throw new IllegalStateException("이미 소장 중인 동화입니다.");
 		}
+
+		// 크레딧 확인 및 차감
+		int userCredit = userRepository.getUserCredit(userId);
+		if (userCredit < fairyTale.getPurchasePrice()) {
+			logger.warn("User {} does not have enough credit to buy fairy tale {}", userId, fairyTaleId);
+			throw new IllegalStateException("크레딧이 부족합니다.");
+		}
+
+		userRepository.updateUserCredit(userId, userCredit - fairyTale.getPurchasePrice());
 
 		PurchaseList purchase = PurchaseList.builder()
 			.userId(userId)
@@ -125,6 +154,7 @@ public class FairyTaleOwnershipService {
 		return purchaseList;
 	}
 
+	@Transactional(readOnly = true)
 	private String getUserIdFromProfile(Long profileId) {
 		String userId = fairyTaleOwnershipRepository.findUserIdByProfileId(profileId);
 		logger.debug("Found userId: {} for profileId: {}", userId, profileId);
@@ -135,6 +165,7 @@ public class FairyTaleOwnershipService {
 		return userId;
 	}
 
+	@Transactional(readOnly = true)
 	private FairyTale getFairyTaleById(Long fairyTaleId) {
 		FairyTale fairyTale = fairyTaleOwnershipRepository.findFairyTaleById(fairyTaleId);
 		if (fairyTale == null) {
@@ -168,5 +199,48 @@ public class FairyTaleOwnershipService {
 			.views(fairyTale.getViews())
 			.progress(history != null ? history.getProgress() : 0.0)
 			.build();
+	}
+
+	@Transactional
+	public FairyTaleOwnershipDTO purchaseFairyTale(Long profileId, Long fairyTaleId) {
+		try {
+			logger.info("Purchasing fairy tale for profileId: {} and fairyTaleId: {}", profileId, fairyTaleId);
+			String userId = getUserIdFromProfile(profileId);
+			FairyTale fairyTale = getFairyTaleById(fairyTaleId);
+
+			// 이미 구매한 경우 체크
+			PurchaseList existingPurchase = fairyTaleOwnershipRepository.findPurchaseByUserIdAndFairyTaleId(userId,
+				fairyTaleId);
+			if (existingPurchase != null) {
+				logger.warn("User {} already purchased fairy tale {}", userId, fairyTaleId);
+				throw new IllegalStateException("이미 소장 중인 동화입니다.");
+			}
+
+			// 크레딧 확인 및 차감
+			int userCredit = userRepository.getUserCredit(userId);
+			if (userCredit < fairyTale.getPurchasePrice()) {
+				throw new InsufficientCreditException("크레딧이 부족합니다.");
+			}
+
+			userRepository.updateUserCredit(userId, userCredit - fairyTale.getPurchasePrice());
+
+			PurchaseList purchase = PurchaseList.builder()
+				.userId(userId)
+				.fairyTaleId(fairyTaleId)
+				.purchaseDate(new Date())
+				.build();
+
+			fairyTaleOwnershipRepository.savePurchase(purchase);
+			logger.info("Fairy tale purchased successfully");
+
+			History history = historyRepository.getLatestHistory(profileId, fairyTaleId);
+			return createFairyTaleOwnershipDTO(fairyTale, purchase, null, history);
+		} catch (InsufficientCreditException e) {
+			logger.warn("Insufficient credit to purchase fairy tale: {}", e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			logger.error("Error occurred while purchasing fairy tale", e);
+			throw new RuntimeException("동화 구매 중 오류가 발생했습니다: " + e.getMessage(), e);
+		}
 	}
 }
