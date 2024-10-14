@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import kkk.dainyong.tale.model.FairyTale;
 import kkk.dainyong.tale.model.PurchaseList;
 import kkk.dainyong.tale.model.RentalList;
 
 @Mapper
+@Repository
 public interface FairyTaleOwnershipRepository {
 	String findUserIdByProfileId(@Param("profileId") Long profileId);
 
@@ -30,5 +32,6 @@ public interface FairyTaleOwnershipRepository {
 	List<RentalList> findRentalListByProfileId(@Param("profileId") Long profileId);
 
 	List<RentalList> findRentalListByUserId(@Param("userId") String userId);
+
 	List<PurchaseList> findPurchaseListByUserId(@Param("userId") String userId);
 }
