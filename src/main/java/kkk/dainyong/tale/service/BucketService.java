@@ -29,11 +29,13 @@ public class BucketService {
         bucketRepository.deleteBucket(loginId,fairyTaleId);
     }
 
+    @Transactional(readOnly = true)
     public List<BucketDTO> selectAllBucket(String loginId){
         List<BucketDTO> bucketDTOList = bucketRepository.selectAllByLoginId(loginId);
         return bucketDTOList;
     }
 
+    @Transactional(readOnly = true)
     public BucketDTO selectOneBucket(String loginId, Long fairyTaleId){
         BucketDTO bucketDTO = bucketRepository.selectOneBucket(loginId, fairyTaleId);
         return bucketDTO;

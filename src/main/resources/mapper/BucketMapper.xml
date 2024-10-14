@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.BucketRepository">
+    <select id="selectAllByLoginId" resultType="kkk.dainyong.tale.model.dto.BucketDTO">
+        SELECT
+        f.id,
+        f.title ,
+        f.image,
+        f.rental_price AS rentalPrice,
+        f.purchase_price AS purchasePrice
+        FROM FAVORITES v
+        JOIN FAIRYTALES f ON v.fairytale_id = f.id
+        WHERE v.user_id = #{loginId}
+    </select>
+
+    <select id="selectOneBucket" resultType="kkk.dainyong.tale.model.dto.BucketDTO">
+        SELECT
+        f.id,
+        f.title ,
+        f.image,
+        f.rental_price AS rentalPrice,
+        f.purchase_price AS purchasePrice
+        FROM FAVORITES v
+        JOIN FAIRYTALES f ON v.fairytale_id = f.id
+        WHERE v.user_id = #{loginId} AND v.fairytale_id = #{fairyTaleId}
+    </select>
+
+    <insert id="insertBucket" parameterType="kkk.dainyong.tale.model.Bucket">
+        INSERT INTO FAVORITES (USER_ID, FAIRYTALE_ID)
+        VALUES (#{loginId}, #{fairyTaleId})
+    </insert>
+
+    <!-- 예약 삭제 쿼리 -->
+    <delete id="deleteReservation">
+        DELETE FROM FAVORITES WHERE USER_ID = #{loginId} AND FAIRYTALE_ID = #{fairyTaleId}
+    </delete>
+
+
+</mapper>
