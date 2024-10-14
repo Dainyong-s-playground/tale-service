@@ -154,6 +154,7 @@ public class FairyTaleOwnershipService {
 		return purchaseList;
 	}
 
+	@Transactional(readOnly = true)
 	private String getUserIdFromProfile(Long profileId) {
 		String userId = fairyTaleOwnershipRepository.findUserIdByProfileId(profileId);
 		logger.debug("Found userId: {} for profileId: {}", userId, profileId);
@@ -164,6 +165,7 @@ public class FairyTaleOwnershipService {
 		return userId;
 	}
 
+	@Transactional(readOnly = true)
 	private FairyTale getFairyTaleById(Long fairyTaleId) {
 		FairyTale fairyTale = fairyTaleOwnershipRepository.findFairyTaleById(fairyTaleId);
 		if (fairyTale == null) {

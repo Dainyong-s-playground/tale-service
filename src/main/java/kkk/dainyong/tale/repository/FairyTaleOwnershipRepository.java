@@ -11,15 +11,14 @@ import kkk.dainyong.tale.model.PurchaseList;
 import kkk.dainyong.tale.model.RentalList;
 
 @Mapper
-@Repository
 public interface FairyTaleOwnershipRepository {
 	String findUserIdByProfileId(@Param("profileId") Long profileId);
 
 	PurchaseList findPurchaseByUserIdAndFairyTaleId(@Param("userId") String userId,
-		@Param("fairyTaleId") Long fairyTaleId);
+			@Param("fairyTaleId") Long fairyTaleId);
 
 	RentalList findActiveRentalByUserIdAndFairyTaleId(@Param("userId") String userId,
-		@Param("fairyTaleId") Long fairyTaleId);
+			@Param("fairyTaleId") Long fairyTaleId);
 
 	FairyTale findFairyTaleById(@Param("fairyTaleId") Long fairyTaleId);
 

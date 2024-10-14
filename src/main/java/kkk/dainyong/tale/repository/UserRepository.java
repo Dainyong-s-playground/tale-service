@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
-@Repository
 public interface UserRepository {
 	int getUserCredit(@Param("userId") String userId);
 
