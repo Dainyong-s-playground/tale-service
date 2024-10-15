@@ -40,4 +40,8 @@ public class GraphService {
     public void incrementMotionCount(Long profileId) {
         graphRepository.incrementMotionCount(profileId);
     }
+
+    public void incrementGameCount(Long profileId) {
+        graphRepository.incrementGameCount(profileId);
+    }
 }

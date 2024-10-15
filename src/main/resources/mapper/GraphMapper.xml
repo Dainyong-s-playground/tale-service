@@ -43,4 +43,10 @@
         SET MOTION_COUNT = MOTION_COUNT + 1
         WHERE PROFILE_ID = #{PROFILE_ID}
     </update>
+
+    <update id="incrementGameCount">
+        UPDATE REPORTS
+        SET GAME_COUNT = GAME_COUNT + 1
+        WHERE PROFILE_ID = #{PROFILE_ID}
+    </update>
 </mapper>
