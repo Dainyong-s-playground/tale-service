@@ -18,6 +18,7 @@ public interface HistoryRepository {
 	void updateHistory(History history);
 
 	void deleteHistory(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
+
 	History getLatestHistory(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
 
 }

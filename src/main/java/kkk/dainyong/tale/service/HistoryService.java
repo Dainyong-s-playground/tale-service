@@ -55,5 +55,11 @@ public class HistoryService {
 		return pastDataDTOList;
 	}
 
-	// 필요한 경우 다른 메서드 추가
+	public void insertHistory(History history) {
+		// 존재하는 동화인지 확인
+		if(fairyTaleRepository.findById(history.getFairyTaleId()) == null) throw new IllegalStateException("존재하지 않는 동화입니다.");
+
+		historyRepository.insertHistory(new History(history.getProfileId(), history.getFairyTaleId(), history.getReadDate(), history.getProgress()));
+	}
+
 }

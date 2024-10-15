@@ -3,13 +3,12 @@ package kkk.dainyong.tale.controller;
 
 import java.util.List;
 
+import kkk.dainyong.tale.model.History;
 import kkk.dainyong.tale.model.dto.PastDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kkk.dainyong.tale.model.dto.HistoryDTO;
 import kkk.dainyong.tale.service.HistoryService;
@@ -36,5 +35,10 @@ public class HistoryController {
 		List<PastDataDTO> result = historyService.getPastData(profileId);
 		return ResponseEntity.ok(result);
 	}
-	// 필요한 경우 다른 엔드포인트 추가
+
+	@PostMapping("/")
+	public ResponseEntity insertHistory(@RequestBody History history) {
+		historyService.insertHistory(history);
+		return ResponseEntity.ok(HttpStatus.CREATED);
+	}
 }
