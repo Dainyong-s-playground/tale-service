@@ -9,17 +9,25 @@
         <result property="image" column="IMAGE" />
         <result property="speaker" column="SPEAKER" />
         <result property="script" column="SCRIPT" />
-        <result property="sceneNumber" column="SCENE_NUMBER" />
+        <result property="sceneNumber" column="DATA_SCENE_NUMBER" />
         <collection property="url" ofType="string">
             <result column="URL"/>
+        </collection>
+        <collection property="gameSceneNumber" ofType="integer">
+            <result column="GAME_SCENE_NUMBER"/>
         </collection>
     </resultMap>
 
     <select id="getFairyTaleData" resultMap="fairytaleResultMap">
-        SELECT f.ID, f.TITLE, f.IMAGE, d.SPEAKER, d.SCRIPT, i.URL, d.SCENE_NUMBER
-        FROM FAIRYTALES f
-                 LEFT JOIN DATA_FAIRYTALES d ON f.ID = d.FAIRYTALE_ID
-                 LEFT JOIN IMAGE_FAIRYTALES i ON f.ID = i.FAIRYTALE_ID
-        WHERE f.ID = #{fairytaleId}
+        SELECT * FROM (
+                          SELECT f.ID, f.TITLE, f.IMAGE, d.SPEAKER,
+                                 d.SCRIPT, i.URL, d.SCENE_NUMBER AS DATA_SCENE_NUMBER, g.SCENE_NUMBER AS GAME_SCENE_NUMBER
+                          FROM FAIRYTALES f
+                                   LEFT JOIN DATA_FAIRYTALES d ON f.ID = d.FAIRYTALE_ID
+                                   LEFT JOIN IMAGE_FAIRYTALES i ON f.ID = i.FAIRYTALE_ID
+                                   LEFT JOIN GAMIFICATIONS g ON f.ID = g.FAIRYTALE_ID
+                          WHERE f.ID = #{fairytaleId}
+                          ORDER BY g.SCENE_NUMBER, i.URL
+                      )
     </select>
 </mapper>
