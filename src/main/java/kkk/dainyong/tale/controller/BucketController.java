@@ -8,37 +8,47 @@ import kkk.dainyong.tale.model.dto.BucketDTO;
 import kkk.dainyong.tale.model.dto.ProfileStatsDTO;
 import kkk.dainyong.tale.service.BucketService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/bucket")
 public class BucketController {
     private final BucketService bucketService;
 
-    @GetMapping("/bucket/{loginId}")
+    @GetMapping("/{loginId}")
     public List<BucketDTO> getAllBucket(@PathVariable("loginId") String loginId){
         List<BucketDTO> bucketDTOList = bucketService.selectAllBucket(loginId);
         return bucketDTOList;
     }
-    @DeleteMapping("/deletebucket")
-    public ResponseEntity<String> deleteBucket(@RequestBody Bucket bucket){
-        bucketService.deleteBucket(bucket.getLoginId(), bucket.getFairyTaleId());
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteBucket(@RequestParam String loginId,
+                                               @RequestParam Long fairyTaleId){
+        log.info(loginId);
+        log.info(fairyTaleId);
+        bucketService.deleteBucket(loginId, fairyTaleId);
         return ResponseEntity.ok("");
     }
 
-    @PostMapping("/addbucket")
+    @PostMapping("/add")
     public ResponseEntity<String> addBucketList(@RequestBody Bucket bucket){
-        bucketService.addBucket(bucket.getLoginId(), bucket.getFairyTaleId());
+        log.info(bucket.getLoginId());
+        log.info(bucket.getFairyTaleId());
+        bucketService.addBucket(bucket);
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("/checkbucket")
-    public BucketDTO getAllBucket(@RequestBody Bucket bucket){
-        BucketDTO bucketDTO = bucketService.selectOneBucket(bucket.getLoginId(), bucket.getFairyTaleId());
+    @GetMapping("/check")
+    public BucketDTO getOneBucket(@RequestParam String loginId,
+                                  @RequestParam Long fairyTaleId){
+        log.info(loginId);
+        log.info(fairyTaleId);
+        BucketDTO bucketDTO = bucketService.selectOneBucket(loginId, fairyTaleId);
         return bucketDTO;
     }
 }

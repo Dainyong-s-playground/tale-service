@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Bucket {
-    private String LoginId;
+    private String loginId;
     private Long fairyTaleId;
 }

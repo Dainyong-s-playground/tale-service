@@ -34,7 +34,7 @@
     </insert>
 
     <!-- 예약 삭제 쿼리 -->
-    <delete id="deleteReservation">
+    <delete id="deleteBucket">
         DELETE FROM FAVORITES WHERE USER_ID = #{loginId} AND FAIRYTALE_ID = #{fairyTaleId}
     </delete>
 
