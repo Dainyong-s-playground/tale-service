@@ -138,4 +138,23 @@ class HistoryServiceTest {
 		verify(historyRepository, times(1)).getRecentlyWatchedContent(profileId);
 		verify(fairyTaleRepository, times(1)).findById(1L);
 	}
+
+	@Test
+	void insertHistory() {
+		// Given
+		Long profileId = 1L;
+		History history = History.builder()
+				.profileId(profileId)
+				.fairyTaleId(1L)
+				.readDate(LocalDate.now())
+				.progress(0.5f)
+				.build();
+
+		// When (fairyTaleRepository가 null을 반환하게 설정)
+		when(fairyTaleRepository.findById(1L)).thenReturn(null);
+
+		// Then (IllegalStateException이 발생해야 함)
+		assertThrows(IllegalStateException.class, () -> historyService.insertHistory(history));
+	}
+
 }
