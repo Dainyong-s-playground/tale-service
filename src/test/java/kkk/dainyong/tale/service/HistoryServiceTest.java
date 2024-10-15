@@ -156,40 +156,4 @@ class HistoryServiceTest {
 		// Then (IllegalStateException이 발생해야 함)
 		assertThrows(IllegalStateException.class, () -> historyService.insertHistory(history));
 	}
-
-	@Test
-	void updateHistory_shouldUpdateHistorySuccessfullyWhenFairyTaleExists() {
-		// Given
-		Long profileId = 1L;
-		Long fairyTaleId = 1L;
-		History history = History.builder()
-				.profileId(profileId)
-				.fairyTaleId(fairyTaleId)
-				.readDate(LocalDate.now())
-				.progress(0.5f)
-				.build();
-
-		// FairyTale 객체 생성 (테스트용 가짜 객체)
-		FairyTale fairyTale = FairyTale.builder()
-				.id(fairyTaleId)
-				.title("Fairy Tale")
-				.imageUrl("image.jpg")
-				.views(100)
-				.rentalPrice(1000)
-				.purchasePrice(5000)
-				.description("A description")
-				.author("Author")
-				.build();
-
-		// When (fairyTaleRepository와 historyRepository의 동작을 설정)
-		when(fairyTaleRepository.findById(fairyTaleId)).thenReturn(fairyTale);
-		doNothing().when(historyRepository).updateHistory(any(History.class));
-
-		// 실제 메서드 호출
-		historyService.updateHistory(history);
-
-		// Then (정상적으로 updateHistory가 호출되었는지 검증)
-		verify(fairyTaleRepository, times(1)).findById(fairyTaleId);
-		verify(historyRepository, times(1)).updateHistory(any(History.class));
-	}
 }

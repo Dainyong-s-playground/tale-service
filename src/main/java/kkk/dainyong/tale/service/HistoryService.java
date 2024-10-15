@@ -1,14 +1,9 @@
 package kkk.dainyong.tale.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import kkk.dainyong.tale.model.dto.CommentsDTO;
 import kkk.dainyong.tale.model.dto.PastDataDTO;
-import kkk.dainyong.tale.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,13 +53,7 @@ public class HistoryService {
 		// 존재하는 동화인지 확인
 		if(fairyTaleRepository.findById(history.getFairyTaleId()) == null) throw new IllegalStateException("존재하지 않는 동화입니다.");
 
-		historyRepository.insertHistory(new History(history.getProfileId(), history.getFairyTaleId(), history.getReadDate(), history.getProgress()));
-	}
-
-	public void updateHistory(History history) {
-		// 존재하는 동화인지 확인
-		if(fairyTaleRepository.findById(history.getFairyTaleId()) == null) throw new IllegalStateException("존재하지 않는 동화입니다.");
-
-		historyRepository.updateHistory(history);
+		if(historyRepository.getHistoryByProfileIdAndFairyTaleId(history.getProfileId(), history.getFairyTaleId()) != null) historyRepository.updateHistory(history);
+		else historyRepository.insertHistory(new History(history.getProfileId(), history.getFairyTaleId(), history.getReadDate(), history.getProgress()));
 	}
 }
