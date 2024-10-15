@@ -5,6 +5,7 @@ import kkk.dainyong.tale.model.dto.PreferenceDTO;
 import kkk.dainyong.tale.repository.GraphRepository;
 import kkk.dainyong.tale.service.GraphService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/graph")
+@Slf4j
+@CrossOrigin("http://localhost:8080")
 public class GraphController {
 
     private final GraphService graphService;
