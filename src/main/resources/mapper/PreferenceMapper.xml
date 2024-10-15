@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kkk.dainyong.tale.repository.PreferenceRepository">
+    <update id="updatePreferencesCount">
+        MERGE INTO PREFERENCES p
+            USING (
+                SELECT #{profile_id} AS profile_id, ft.TAG_ID AS tag_id
+                FROM FAIRYTALE_TAGS ft
+                WHERE ft.FAIRYTALE_ID = #{fairytale_id}
+            ) src
+            ON (p.PROFILE_ID = src.profile_id AND p.TAG_ID = src.tag_id)
+            WHEN MATCHED THEN
+                UPDATE SET p.COUNT = p.COUNT + 1
+            WHEN NOT MATCHED THEN
+                INSERT (PROFILE_ID, TAG_ID, COUNT)
+                    VALUES (src.profile_id, src.tag_id, 1);
+    </update>
+</mapper>
