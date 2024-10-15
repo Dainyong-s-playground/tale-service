@@ -65,4 +65,11 @@
               ORDER BY read_date DESC)
         WHERE ROWNUM = 1
     </select>
+
+    <select id="getHistoryByProfileIdAndFairyTaleId" resultType="kkk.dainyong.tale.model.History">
+        SELECT PROFILE_ID, FAIRYTALE_ID, READ_DATE, PROGRESS
+        FROM HISTORIES
+        WHERE profile_id = #{profileId}
+        AND fairytale_id = #{fairyTaleId}
+    </select>
 </mapper>
