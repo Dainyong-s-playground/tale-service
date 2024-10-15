@@ -14,16 +14,34 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class GraphService {
+
     private final GraphRepository graphRepository;
+
     @Transactional(readOnly = true)
     public Reports getReports(Long profileId){
         Reports reports = graphRepository.getReports(profileId);
         return reports;
     }
+
     @Transactional(readOnly = true)
     public List<PreferenceDTO> getPreference(Long profileId){
         List<PreferenceDTO> preference = graphRepository.getPreferenceByProfileId(profileId);
         return preference;
     }
 
+    public void incrementTotalCount(Long profileId) {
+        graphRepository.incrementTotalCount(profileId);
+    }
+
+    public void incrementRecordCount(Long profileId) {
+        graphRepository.incrementRecordCount(profileId);
+    }
+
+    public void incrementMotionCount(Long profileId) {
+        graphRepository.incrementMotionCount(profileId);
+    }
+
+    public void incrementGameCount(Long profileId) {
+        graphRepository.incrementGameCount(profileId);
+    }
 }

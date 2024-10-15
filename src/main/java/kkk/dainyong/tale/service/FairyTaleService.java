@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kkk.dainyong.tale.model.dto.UpdatePreferenceDTO;
+import kkk.dainyong.tale.repository.PreferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,13 @@ import kkk.dainyong.tale.repository.FairyTaleRepository;
 public class FairyTaleService {
 
 	private final FairyTaleRepository fairyTaleRepository;
+	private final PreferenceRepository preferenceRepository;
 
 	@Autowired
-	public FairyTaleService(FairyTaleRepository fairyTaleRepository) {
+	public FairyTaleService(FairyTaleRepository fairyTaleRepository, PreferenceRepository preferenceRepository) {
 		this.fairyTaleRepository = fairyTaleRepository;
-	}
+        this.preferenceRepository = preferenceRepository;
+    }
 
 	@Transactional
 	public FairyTaleDTO getFairyTaleByIdAndIncrementViews(Long id, String ipAddress) {
@@ -88,5 +92,9 @@ public class FairyTaleService {
 			fairyTaleRepository.incrementViews(fairyTaleId);
 			fairyTaleRepository.insertViewLog(fairyTaleId, ipAddress, viewDate);
 		}
+	}
+
+	public void updatePreferencesCount(UpdatePreferenceDTO updatePreferenceDTO) {
+		preferenceRepository.updatePreferencesCount(updatePreferenceDTO);
 	}
 }
