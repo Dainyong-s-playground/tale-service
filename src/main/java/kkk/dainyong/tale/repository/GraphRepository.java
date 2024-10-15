@@ -13,4 +13,6 @@ public interface GraphRepository {
     List<PreferenceDTO> getPreferenceByProfileId(@Param("profileId") Long profileId);
 
     void incrementTotalCount(@Param("profileId") Long profileId);
+
+    void incrementRecordCount(@Param("profileId") Long profileId);
 }

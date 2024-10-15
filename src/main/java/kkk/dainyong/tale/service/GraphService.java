@@ -32,4 +32,8 @@ public class GraphService {
     public void incrementTotalCount(Long profileId) {
         graphRepository.incrementTotalCount(profileId);
     }
+
+    public void incrementRecordCount(Long profileId) {
+        graphRepository.incrementRecordCount(profileId);
+    }
 }
