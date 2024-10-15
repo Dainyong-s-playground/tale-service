@@ -31,7 +31,6 @@ public class HistoryService {
 	public HistoryService(HistoryRepository historyRepository, FairyTaleRepository fairyTaleRepository) {
 		this.historyRepository = historyRepository;
 		this.fairyTaleRepository = fairyTaleRepository;
-
 	}
 
 	@Transactional(readOnly = true)
@@ -62,4 +61,10 @@ public class HistoryService {
 		historyRepository.insertHistory(new History(history.getProfileId(), history.getFairyTaleId(), history.getReadDate(), history.getProgress()));
 	}
 
+	public void updateHistory(History history) {
+		// 존재하는 동화인지 확인
+		if(fairyTaleRepository.findById(history.getFairyTaleId()) == null) throw new IllegalStateException("존재하지 않는 동화입니다.");
+
+		historyRepository.updateHistory(history);
+	}
 }

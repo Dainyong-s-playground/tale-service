@@ -41,4 +41,10 @@ public class HistoryController {
 		historyService.insertHistory(history);
 		return ResponseEntity.ok(HttpStatus.CREATED);
 	}
+
+	@PatchMapping("/")
+	public ResponseEntity updateHistory(@RequestBody History history) {
+		historyService.updateHistory(history);
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
 }
