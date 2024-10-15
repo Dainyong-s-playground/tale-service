@@ -56,7 +56,7 @@
     <select id="findPurchaseListByProfileId" resultType="kkk.dainyong.tale.model.PurchaseList">
         SELECT p.USER_ID, p.FAIRYTALE_ID, p.PURCHASE_DATE
         FROM PURCHASE_LIST p
-        JOIN PROFILES pr ON p.USER_ID = pr.USER_ID
+                 JOIN PROFILES pr ON p.USER_ID = pr.USER_ID
         WHERE pr.ID = #{profileId}
         ORDER BY p.PURCHASE_DATE DESC
     </select>
@@ -64,7 +64,7 @@
     <select id="findRentalListByProfileId" resultType="kkk.dainyong.tale.model.RentalList">
         SELECT r.USER_ID, r.FAIRYTALE_ID, r.START_DATE, r.END_DATE
         FROM RENTAL_LIST r
-        JOIN PROFILES pr ON r.USER_ID = pr.USER_ID
+                 JOIN PROFILES pr ON r.USER_ID = pr.USER_ID
         WHERE pr.ID = #{profileId}
         ORDER BY r.START_DATE DESC
     </select>
