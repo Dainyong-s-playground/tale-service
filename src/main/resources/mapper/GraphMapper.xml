@@ -29,24 +29,24 @@
     <update id="incrementTotalCount">
         UPDATE REPORTS
         SET COUNT = COUNT + 1
-        WHERE PROFILE_ID = #{PROFILE_ID}
+        WHERE PROFILE_ID = #{profileId}
     </update>
 
     <update id="incrementRecordCount">
         UPDATE REPORTS
         SET RECORD_COUNT = RECORD_COUNT + 1
-        WHERE PROFILE_ID = #{PROFILE_ID}
+        WHERE PROFILE_ID = #{profileId}
     </update>
 
     <update id="incrementMotionCount">
         UPDATE REPORTS
         SET MOTION_COUNT = MOTION_COUNT + 1
-        WHERE PROFILE_ID = #{PROFILE_ID}
+        WHERE PROFILE_ID = #{profileId}
     </update>
 
     <update id="incrementGameCount">
         UPDATE REPORTS
         SET GAME_COUNT = GAME_COUNT + 1
-        WHERE PROFILE_ID = #{PROFILE_ID}
+        WHERE PROFILE_ID = #{profileId}
     </update>
 </mapper>
