@@ -15,4 +15,6 @@ public interface GraphRepository {
     void incrementTotalCount(@Param("profileId") Long profileId);
 
     void incrementRecordCount(@Param("profileId") Long profileId);
+
+    void incrementMotionCount(@Param("profileId") Long profileId);
 }

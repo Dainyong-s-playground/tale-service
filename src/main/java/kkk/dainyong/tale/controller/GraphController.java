@@ -45,4 +45,10 @@ public class GraphController {
         graphService.incrementRecordCount(profileId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @PatchMapping("/motionCount/{profileId}")
+    public ResponseEntity incrementMotionCount(@PathVariable Long profileId) {
+        graphService.incrementMotionCount(profileId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }

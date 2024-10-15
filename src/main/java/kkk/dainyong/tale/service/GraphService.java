@@ -36,4 +36,8 @@ public class GraphService {
     public void incrementRecordCount(Long profileId) {
         graphRepository.incrementRecordCount(profileId);
     }
+
+    public void incrementMotionCount(Long profileId) {
+        graphRepository.incrementMotionCount(profileId);
+    }
 }
