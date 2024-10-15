@@ -11,4 +11,6 @@ import java.util.List;
 public interface GraphRepository {
     Reports getReports(@Param("profileId") Long profileId);
     List<PreferenceDTO> getPreferenceByProfileId(@Param("profileId") Long profileId);
+
+    void incrementTotalCount(@Param("profileId") Long profileId);
 }

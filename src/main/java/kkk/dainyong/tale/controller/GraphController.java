@@ -31,4 +31,10 @@ public class GraphController {
         List<PreferenceDTO> preference = graphService.getPreference(profileId);
         return ResponseEntity.ok(preference);
     }
+
+    @PatchMapping("/totalCount/{profileId}")
+    public ResponseEntity incrementTotalCount(@PathVariable Long profileId) {
+        graphService.incrementTotalCount(profileId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }

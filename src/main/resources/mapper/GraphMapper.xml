@@ -25,4 +25,10 @@
         JOIN TAGS t ON tag_id=t.id
         ORDER BY TAG_ID ASC
     </select>
+
+    <update id="incrementTotalCount">
+        UPDATE REPORTS
+        SET COUNT = COUNT + 1
+        WHERE PROFILE_ID = #{PROFILE_ID}
+    </update>
 </mapper>
