@@ -72,4 +72,11 @@
         WHERE profile_id = #{profileId}
         AND fairytale_id = #{fairyTaleId}
     </select>
+
+    <select id="getProgress" resultType="float">
+        SELECT PROGRESS
+        FROM HISTORIES
+        WHERE profile_id = #{profileId}
+          AND fairytale_id = #{fairyTaleId}
+    </select>
 </mapper>

@@ -41,4 +41,9 @@ public class HistoryController {
 		historyService.insertHistory(history);
 		return ResponseEntity.ok(HttpStatus.CREATED);
 	}
+
+	@GetMapping("/{profileId}/{fairyTaleId}/progress")
+	public Float getProgress(@PathVariable("profileId") Long profileId, @PathVariable("fairyTaleId") Long fairyTaleId) {
+		return historyService.getProgress(profileId, fairyTaleId);
+	}
 }

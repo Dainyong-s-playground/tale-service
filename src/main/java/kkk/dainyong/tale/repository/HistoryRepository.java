@@ -24,5 +24,5 @@ public interface HistoryRepository {
 
 	History getHistoryByProfileIdAndFairyTaleId(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
 
-
+	Float getProgress(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
 }

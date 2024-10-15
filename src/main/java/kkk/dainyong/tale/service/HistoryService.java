@@ -56,4 +56,11 @@ public class HistoryService {
 		if(historyRepository.getHistoryByProfileIdAndFairyTaleId(history.getProfileId(), history.getFairyTaleId()) != null) historyRepository.updateHistory(history);
 		else historyRepository.insertHistory(new History(history.getProfileId(), history.getFairyTaleId(), history.getReadDate(), history.getProgress()));
 	}
+
+	@Transactional(readOnly = true)
+	public Float getProgress(Long profileId, Long fairyTaleId) {
+		if(fairyTaleRepository.findById(fairyTaleId) == null) throw new IllegalStateException("존재하지 않는 동화입니다.");
+
+		return historyRepository.getProgress(profileId, fairyTaleId);
+	}
 }
