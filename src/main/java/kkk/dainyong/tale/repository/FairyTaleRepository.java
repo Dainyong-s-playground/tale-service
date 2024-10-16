@@ -27,4 +27,6 @@ public interface FairyTaleRepository {
 		@Param("viewDate") LocalDate viewDate);
 
 	List<FairyTale> findRandomThreeFromTopTenExcludingId(@Param("excludeId") Long excludeId);
+
+	List<Long> findTagsByFairyTaleId(@Param("fairyTaleId") Long fairyTaleId);
 }

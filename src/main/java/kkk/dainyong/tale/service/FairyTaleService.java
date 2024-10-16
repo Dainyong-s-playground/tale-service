@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import kkk.dainyong.tale.model.dto.UpdatePreferenceDTO;
 import kkk.dainyong.tale.repository.PreferenceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import kkk.dainyong.tale.model.dto.FairyTaleDTO;
 import kkk.dainyong.tale.repository.FairyTaleRepository;
 
 @Service
+@Slf4j
 public class FairyTaleService {
 
 	private final FairyTaleRepository fairyTaleRepository;
@@ -95,6 +97,14 @@ public class FairyTaleService {
 	}
 
 	public void updatePreferencesCount(UpdatePreferenceDTO updatePreferenceDTO) {
-		preferenceRepository.updatePreferencesCount(updatePreferenceDTO);
+		log.info("Updating preferences for profileId: {} and fairyTaleId: {}",
+				updatePreferenceDTO.getProfileId(), updatePreferenceDTO.getFairyTaleId());
+
+		int updatedRows = preferenceRepository.updatePreferencesCount(
+				updatePreferenceDTO.getProfileId(),
+				updatePreferenceDTO.getFairyTaleId()
+		);
+
+		log.info("Preferences updated successfully. Affected rows: {}", updatedRows);
 	}
 }

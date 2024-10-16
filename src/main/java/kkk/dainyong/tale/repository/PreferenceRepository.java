@@ -1,9 +1,10 @@
 package kkk.dainyong.tale.repository;
 
-import kkk.dainyong.tale.model.dto.UpdatePreferenceDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PreferenceRepository {
-    void updatePreferencesCount(UpdatePreferenceDTO updatePreferenceDTO);
+    int updatePreferencesCount(@Param("profileId") Long profileId,
+                               @Param("fairyTaleId") Long fairyTaleId);
 }
