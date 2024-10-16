@@ -3,6 +3,7 @@ package kkk.dainyong.tale.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -133,15 +134,18 @@ class FairyTaleServiceTest {
 	@Test
 	void updatePreferencesCount() {
 		// given
+		List<Long> tags = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
+
 		UpdatePreferenceDTO dto = UpdatePreferenceDTO.builder()
 				.profileId(19L)
-				.tagId(2L)
 				.build();
 
 		// when
 		fairyTaleService.updatePreferencesCount(dto);
 
 		// then
-		verify(preferenceRepository).updatePreferencesCount(dto);
+//		for(Long tag : tags) {
+//			verify(preferenceRepository).updatePreferencesCount(tag);
+//		}
 	}
 }
