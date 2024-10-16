@@ -13,6 +13,7 @@ import kkk.dainyong.tale.service.FairyTaleService;
 
 @RestController
 @RequestMapping("/api/fairytales")
+@CrossOrigin("http://localhost:8080")
 public class FairyTaleController {
 
 	private final FairyTaleService fairyTaleService;
