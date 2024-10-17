@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/graph")
 @Slf4j
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("https://www.dainyongplayground.site")
 public class GraphController {
 
     private final GraphService graphService;

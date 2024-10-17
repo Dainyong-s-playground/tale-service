@@ -22,7 +22,7 @@ public class FairyTalePlayerService {
 
     private final FairyTaleRepository fairyTaleRepository;
     private final FairyTaleDataRepository fairyTaleDataRepository;
-    private final String TTS_MODEL = "http://localhost:7773";
+    private final String TTS_MODEL = "http://tts.dainyongplayground.site:7773";
 
     @Transactional(readOnly = true)
     public FairyTaleDataDTO getFairyTaleData(Long fairyTaleNumber) {
