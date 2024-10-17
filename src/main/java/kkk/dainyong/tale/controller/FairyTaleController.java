@@ -2,12 +2,10 @@ package kkk.dainyong.tale.controller;
 
 import java.util.List;
 
+import kkk.dainyong.tale.model.dto.UpdatePreferenceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kkk.dainyong.tale.model.dto.FairyTaleDTO;
@@ -15,6 +13,7 @@ import kkk.dainyong.tale.service.FairyTaleService;
 
 @RestController
 @RequestMapping("/api/fairytales")
+@CrossOrigin("http://localhost:8080")
 public class FairyTaleController {
 
 	private final FairyTaleService fairyTaleService;
@@ -45,6 +44,12 @@ public class FairyTaleController {
 	public ResponseEntity<List<FairyTaleDTO>> getRecommendations(@PathVariable Long id) {
 		List<FairyTaleDTO> recommendations = fairyTaleService.getRandomThreeRecommendations(id);
 		return ResponseEntity.ok(recommendations);
+	}
+
+	@PatchMapping("/preferences")
+	public ResponseEntity updatePreferencesCount(@RequestBody UpdatePreferenceDTO updatePreferenceDTO) {
+		fairyTaleService.updatePreferencesCount(updatePreferenceDTO);
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -19,4 +19,5 @@ public class FairyTaleDataDTO {
     private String script;
     private List<String> url;       // 이미지 리소스
     private String sceneNumber;     // 화면 전환 장면
+    private List<Integer> gameSceneNumber;
 }

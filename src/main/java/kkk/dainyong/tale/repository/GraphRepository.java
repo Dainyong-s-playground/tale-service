@@ -11,4 +11,12 @@ import java.util.List;
 public interface GraphRepository {
     Reports getReports(@Param("profileId") Long profileId);
     List<PreferenceDTO> getPreferenceByProfileId(@Param("profileId") Long profileId);
+
+    void incrementTotalCount(@Param("profileId") Long profileId);
+
+    void incrementRecordCount(@Param("profileId") Long profileId);
+
+    void incrementMotionCount(@Param("profileId") Long profileId);
+
+    void incrementGameCount(@Param("profileId") Long profileId);
 }

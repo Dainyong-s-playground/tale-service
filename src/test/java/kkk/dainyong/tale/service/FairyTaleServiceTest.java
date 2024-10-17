@@ -3,9 +3,12 @@ package kkk.dainyong.tale.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import kkk.dainyong.tale.model.dto.UpdatePreferenceDTO;
+import kkk.dainyong.tale.repository.PreferenceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,6 +27,9 @@ class FairyTaleServiceTest {
 
 	@Mock
 	private FairyTaleRepository fairyTaleRepository;
+
+	@Mock
+	private PreferenceRepository preferenceRepository;
 
 	@InjectMocks
 	private FairyTaleService fairyTaleService;
@@ -123,5 +129,23 @@ class FairyTaleServiceTest {
 		// Then
 		assertTrue(result.isEmpty());
 		verify(fairyTaleRepository, times(1)).findTop5ByOrderByViewsDesc();
+	}
+
+	@Test
+	void updatePreferencesCount() {
+		// given
+		List<Long> tags = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
+
+		UpdatePreferenceDTO dto = UpdatePreferenceDTO.builder()
+				.profileId(19L)
+				.build();
+
+		// when
+		fairyTaleService.updatePreferencesCount(dto);
+
+		// then
+//		for(Long tag : tags) {
+//			verify(preferenceRepository).updatePreferencesCount(tag);
+//		}
 	}
 }

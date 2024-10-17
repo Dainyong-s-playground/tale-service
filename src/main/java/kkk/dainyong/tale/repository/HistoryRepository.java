@@ -1,6 +1,7 @@
 package kkk.dainyong.tale.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import kkk.dainyong.tale.model.dto.PastDataDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +19,10 @@ public interface HistoryRepository {
 	void updateHistory(History history);
 
 	void deleteHistory(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
+
 	History getLatestHistory(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
 
+	History getHistoryByProfileIdAndFairyTaleId(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
+
+	Float getProgress(@Param("profileId") Long profileId, @Param("fairyTaleId") Long fairyTaleId);
 }
